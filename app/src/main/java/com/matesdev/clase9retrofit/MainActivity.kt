@@ -47,19 +47,23 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun getListOfBreeds() {
         CoroutineScope(Dispatchers.IO).launch {
-            val call = getRetrofit().create(ApiService::class.java).getListOfBreeds("breed/list/all")
+            val call = getRetrofit().create(ApiService::class.java).getListOfBreeds("breeds/list/all")
             val response = call.body()
 
             // que corra en la interface de usuario
             runOnUiThread {
                 if(call.isSuccessful){
-                    val map = response?.breeds
-                    if(map != null) {
-                        //declara var breed, y asigna valor a cada keys
-                        for(breed in map.keys ) {
-                            listadoRazas.add(breed)
+                    val breedsMap = response?.breeds
+                    breedsMap?.let {
+                        breedsMap.map {
+                            listadoRazas.add(it.key)
                         }
                     }
+                    //declara var breed, y asigna valor a cada keys
+                    /*for(breed in breedsMap.keys ) {
+                            listadoRazas.add(breed)
+                    */
+
                     setSpiner()
 
                 } else {
@@ -107,9 +111,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 hideKeyboard()
             }
         }
-
-
-
 
     }
 
