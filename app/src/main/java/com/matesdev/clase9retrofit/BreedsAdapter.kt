@@ -26,7 +26,7 @@ class BreedsAdapter( private val images: List<String>): RecyclerView.Adapter<Bre
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val image = images[position]
-            holder.bind(image)
+        holder.bind(image)
     }
 
 }
